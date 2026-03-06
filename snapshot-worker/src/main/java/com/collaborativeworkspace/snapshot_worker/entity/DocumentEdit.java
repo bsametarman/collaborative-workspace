@@ -14,14 +14,16 @@ public class DocumentEdit {
 	private Long documentId;
 	private ActionType actionType;
 	private char content;
+	private int position;
 	
 	public DocumentEdit() {}
 
-	public DocumentEdit(Long userId, Long documentId, ActionType actionType, char content) {
+	public DocumentEdit(Long userId, Long documentId, ActionType actionType, char content, int position) {
 		this.userId = userId;
 		this.documentId = documentId;
 		this.actionType = actionType;
 		this.content = content;
+		this.position = position;
 	}
 	
 	public Long getId() {
@@ -62,5 +64,13 @@ public class DocumentEdit {
 	
 	public void setContent(char content) {
 		this.content = content;
+	}
+	
+	public int getPosition() {
+		return position;
+	}
+	
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }
