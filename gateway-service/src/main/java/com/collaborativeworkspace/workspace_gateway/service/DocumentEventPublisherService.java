@@ -14,6 +14,6 @@ public class DocumentEventPublisherService {
 	}
 	
 	public void publishEditEvent(DocumentEditEventDto event) {
-		kafkaTemplate.send("document-edits", event);
+		kafkaTemplate.send("document-edits", event.getDocumentId().toString(), event);
 	}
 }
