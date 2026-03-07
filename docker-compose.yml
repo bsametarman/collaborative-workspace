@@ -5,3 +5,13 @@ services:
     container_name: kafka
     ports:
       - "9092:9092"
+
+  postgres:
+    image: postgres:latest
+    container_name: workspace-db
+    environment:
+      POSTGRES_USER: root
+      POSTGRES_PASSWORD: rootpassword
+      POSTGRES_DB: workspacedb
+    ports:
+      - "5432:5432"
