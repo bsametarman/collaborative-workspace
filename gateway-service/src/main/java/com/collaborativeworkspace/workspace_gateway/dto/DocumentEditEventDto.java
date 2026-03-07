@@ -7,14 +7,16 @@ public class DocumentEditEventDto {
 	private Long documentId;
 	private ActionType actionType;
 	private char content;
+	private int position;
 	
 	public DocumentEditEventDto() {}
 
-	public DocumentEditEventDto(Long userId, Long documentId, ActionType actionType, char content) {
+	public DocumentEditEventDto(Long userId, Long documentId, ActionType actionType, char content, int position) {
 		this.userId = userId;
 		this.documentId = documentId;
 		this.actionType = actionType;
 		this.content = content;
+		this.position = position;
 	}
 	
 	public Long getUserId() {
@@ -47,5 +49,13 @@ public class DocumentEditEventDto {
 	
 	public void setContent(char content) {
 		this.content = content;
+	}
+	
+	public int getPosition() {
+		return position;
+	}
+	
+	public void setPosition(int position) {
+		this.position = position;
 	}
 }
