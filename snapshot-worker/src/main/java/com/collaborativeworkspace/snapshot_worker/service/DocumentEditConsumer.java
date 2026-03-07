@@ -25,6 +25,7 @@ public class DocumentEditConsumer {
 		document.setDocumentId(documentEditEventDto.getDocumentId());
 		document.setActionType(documentEditEventDto.getActionType());
 		document.setContent(documentEditEventDto.getContent());
+		document.setPosition(documentEditEventDto.getPosition());
 		
 		documentEditRepository.save(document);
 	}

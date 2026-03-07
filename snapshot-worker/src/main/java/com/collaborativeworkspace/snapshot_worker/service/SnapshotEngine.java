@@ -26,40 +26,41 @@ public class SnapshotEngine {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void generateSnapshots() {
-    	// TODO: change to dynamic
-        Long targetDocumentId = 1L;
-
-        DocumentSnapshot snapshot = snapshotRepository.findByDocumentId(targetDocumentId);
-        if (snapshot == null) {
-            snapshot = new DocumentSnapshot(targetDocumentId, "", 0L);
-        }
-
-        List<DocumentEdit> newEdits = editRepository.findByDocumentIdAndIdGreaterThanOrderByIdAsc(targetDocumentId, snapshot.getLastProcessedEditId());
-
-        if (newEdits.isEmpty()) {
-            System.out.println("No new edits to process.");
-            return;
-        }
-        
-        StringBuilder documentText = new StringBuilder(snapshot.getContent());
-        Long highestEditId = snapshot.getLastProcessedEditId();
-
-        for (DocumentEdit edit : newEdits) {
-            int pos = Math.min(edit.getPosition(), documentText.length());
-            pos = Math.max(pos, 0);
-
-            if (edit.getActionType() == ActionType.INSERT) {
-                documentText.insert(pos, edit.getContent());
-            } else if (edit.getActionType() == ActionType.DELETE) {
-                if (documentText.length() > 0 && pos < documentText.length()) {
-                    documentText.deleteCharAt(pos);
-                }
+    	List<Long> distinctIds = editRepository.findDistinctDocumentIds();
+    	
+    	for(Long targetDocumentId : distinctIds) {
+            DocumentSnapshot snapshot = snapshotRepository.findByDocumentId(targetDocumentId);
+            if (snapshot == null) {
+                snapshot = new DocumentSnapshot(targetDocumentId, "", 0L);
             }
-            highestEditId = edit.getId();
-        }
 
-        snapshot.setContent(documentText.toString());
-        snapshot.setLastProcessedEditId(highestEditId);
-        snapshotRepository.save(snapshot);
+            List<DocumentEdit> newEdits = editRepository.findByDocumentIdAndIdGreaterThanOrderByIdAsc(targetDocumentId, snapshot.getLastProcessedEditId());
+
+            if (newEdits.isEmpty()) {
+                System.out.println("No new edits to process for document with id: " + targetDocumentId);
+                continue;
+            }
+            
+            StringBuilder documentText = new StringBuilder(snapshot.getContent());
+            Long highestEditId = snapshot.getLastProcessedEditId();
+
+            for (DocumentEdit edit : newEdits) {
+                int pos = Math.min(edit.getPosition(), documentText.length());
+                pos = Math.max(pos, 0);
+
+                if (edit.getActionType() == ActionType.INSERT) {
+                    documentText.insert(pos, edit.getContent());
+                } else if (edit.getActionType() == ActionType.DELETE) {
+                    if (documentText.length() > 0 && pos < documentText.length()) {
+                        documentText.deleteCharAt(pos);
+                    }
+                }
+                highestEditId = edit.getId();
+            }
+
+            snapshot.setContent(documentText.toString());
+            snapshot.setLastProcessedEditId(highestEditId);
+            snapshotRepository.save(snapshot);
+    	}
     }
 }
