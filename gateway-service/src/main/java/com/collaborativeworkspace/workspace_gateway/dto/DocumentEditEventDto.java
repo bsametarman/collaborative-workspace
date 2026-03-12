@@ -3,15 +3,15 @@ package com.collaborativeworkspace.workspace_gateway.dto;
 import com.collaborativeworkspace.workspace_gateway.entity.ActionType;
 
 public class DocumentEditEventDto {
-	private Long userId;
-	private Long documentId;
+	private String userId;
+	private String documentId;
 	private ActionType actionType;
 	private String content;
 	private int position;
 	
 	public DocumentEditEventDto() {}
 
-	public DocumentEditEventDto(Long userId, Long documentId, ActionType actionType, String content, int position) {
+	public DocumentEditEventDto(String userId, String documentId, ActionType actionType, String content, int position) {
 		this.userId = userId;
 		this.documentId = documentId;
 		this.actionType = actionType;
@@ -19,19 +19,19 @@ public class DocumentEditEventDto {
 		this.position = position;
 	}
 	
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 	
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	
-	public Long getDocumentId() {
+	public String getDocumentId() {
 		return documentId;
 	}
 	
-	public void setDocumentId(Long documentId) {
+	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
 	

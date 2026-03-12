@@ -21,7 +21,7 @@ public class WorkspaceController {
 	
 	@MessageMapping("/document/edit/{documentId}")
 	@SendTo("/topic/document/{documentId}")
-	public DocumentEditEventDto GetDocumentEditEvent(@DestinationVariable("documentId") Long documentId, @Payload DocumentEditEventDto documentEditEventDto) {
+	public DocumentEditEventDto GetDocumentEditEvent(@DestinationVariable("documentId") String documentId, @Payload DocumentEditEventDto documentEditEventDto) {
 		documentEditEventDto.setDocumentId(documentId);
 		documentEventPublisherService.publishEditEvent(documentEditEventDto);
 		return documentEditEventDto;
