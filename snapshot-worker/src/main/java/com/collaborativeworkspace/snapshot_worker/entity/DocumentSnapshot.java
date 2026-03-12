@@ -11,7 +11,7 @@ public class DocumentSnapshot {
 	@Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private Long documentId;
+    private String documentId;
     @Column(columnDefinition = "TEXT")
     private String content;
     private Long lastProcessedEditId;
@@ -19,7 +19,7 @@ public class DocumentSnapshot {
     public DocumentSnapshot() {
     }
 
-    public DocumentSnapshot(Long documentId, String content, Long lastProcessedEditId) {
+    public DocumentSnapshot(String documentId, String content, Long lastProcessedEditId) {
         this.documentId = documentId;
         this.content = content;
         this.lastProcessedEditId = lastProcessedEditId;
@@ -33,11 +33,11 @@ public class DocumentSnapshot {
     	this.id = id;
     }
     
-    public Long getDocumentId() {
+    public String getDocumentId() {
     	return documentId;
     }
     
-    public void setDocumentId(Long documentId) {
+    public void setDocumentId(String documentId) {
     	this.documentId = documentId;
     }
     

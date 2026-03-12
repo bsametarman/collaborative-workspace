@@ -10,7 +10,7 @@ import com.collaborativeworkspace.snapshot_worker.entity.DocumentEdit;
 
 @Repository
 public interface DocumentEditRepository extends JpaRepository<DocumentEdit, Long>{
-	List<DocumentEdit> findByDocumentIdAndIdGreaterThanOrderByIdAsc(Long documentId, Long lastId);
+	List<DocumentEdit> findByDocumentIdAndIdGreaterThanOrderByIdAsc(String documentId, Long lastId);
 	@Query("SELECT DISTINCT d.documentId FROM DocumentEdit d")
-	List<Long> findDistinctDocumentIds();
+	List<String> findDistinctDocumentIds();
 }
