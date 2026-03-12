@@ -10,15 +10,15 @@ public class DocumentEdit {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
-	private Long userId;
-	private Long documentId;
+	private String userId;
+	private String documentId;
 	private ActionType actionType;
 	private String content;
 	private int position;
 	
 	public DocumentEdit() {}
 
-	public DocumentEdit(Long userId, Long documentId, ActionType actionType, String content, int position) {
+	public DocumentEdit(String userId, String documentId, ActionType actionType, String content, int position) {
 		this.userId = userId;
 		this.documentId = documentId;
 		this.actionType = actionType;
@@ -34,19 +34,19 @@ public class DocumentEdit {
 		this.id = id;
 	}
 	
-	public Long getUserId() {
+	public String getUserId() {
 		return userId;
 	}
 	
-	public void setUserId(Long userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 	
-	public Long getDocumentId() {
+	public String getDocumentId() {
 		return documentId;
 	}
 	
-	public void setDocumentId(Long documentId) {
+	public void setDocumentId(String documentId) {
 		this.documentId = documentId;
 	}
 	

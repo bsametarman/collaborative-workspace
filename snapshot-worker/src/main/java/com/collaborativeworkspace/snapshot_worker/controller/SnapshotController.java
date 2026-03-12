@@ -20,7 +20,7 @@ public class SnapshotController {
     }
 
     @GetMapping("/{documentId}/snapshot")
-    public String getDocumentSnapshot(@PathVariable Long documentId) {
+    public String getDocumentSnapshot(@PathVariable String documentId) {
         DocumentSnapshot snapshot = snapshotRepository.findByDocumentId(documentId);
         
         if (snapshot == null) {

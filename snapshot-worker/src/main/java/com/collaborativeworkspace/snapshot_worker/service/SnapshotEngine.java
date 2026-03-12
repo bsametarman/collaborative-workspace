@@ -26,9 +26,9 @@ public class SnapshotEngine {
     @Scheduled(fixedRate = 60000)
     @Transactional
     public void generateSnapshots() {
-    	List<Long> distinctIds = editRepository.findDistinctDocumentIds();
+    	List<String> distinctIds = editRepository.findDistinctDocumentIds();
     	
-    	for(Long targetDocumentId : distinctIds) {
+    	for(String targetDocumentId : distinctIds) {
             DocumentSnapshot snapshot = snapshotRepository.findByDocumentId(targetDocumentId);
             if (snapshot == null) {
                 snapshot = new DocumentSnapshot(targetDocumentId, "", 0L);
