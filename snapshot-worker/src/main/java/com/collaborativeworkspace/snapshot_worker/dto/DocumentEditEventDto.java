@@ -6,12 +6,12 @@ public class DocumentEditEventDto {
 	private Long userId;
 	private Long documentId;
 	private ActionType actionType;
-	private char content;
+	private String content;
 	private int position;
 	
 	public DocumentEditEventDto() {}
 
-	public DocumentEditEventDto(Long userId, Long documentId, ActionType actionType, char content, int position) {
+	public DocumentEditEventDto(Long userId, Long documentId, ActionType actionType, String content, int position) {
 		this.userId = userId;
 		this.documentId = documentId;
 		this.actionType = actionType;
@@ -43,11 +43,11 @@ public class DocumentEditEventDto {
 		this.actionType = actionType;
 	}
 	
-	public char getContent() {
+	public String getContent() {
 		return content;
 	}
 	
-	public void setContent(char content) {
+	public void setContent(String content) {
 		this.content = content;
 	}
 	
