@@ -11,9 +11,11 @@ import org.springframework.web.socket.config.annotation.WebSocketMessageBrokerCo
 @EnableWebSocketMessageBroker
 public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	private final WebSocketAuthInterceptor webSocketAuthInterceptor;
+	private final WebSocketSecurityInterceptor webSocketSecurityInterceptor;
 	
-	public WebSocketConfig(WebSocketAuthInterceptor webSocketAuthInterceptor) {
+	public WebSocketConfig(WebSocketAuthInterceptor webSocketAuthInterceptor, WebSocketSecurityInterceptor webSocketSecurityInterceptor) {
 		this.webSocketAuthInterceptor = webSocketAuthInterceptor;
+		this.webSocketSecurityInterceptor = webSocketSecurityInterceptor;
 	}
 	
 	@Override
@@ -32,5 +34,6 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
 	@Override
 	public void configureClientInboundChannel(ChannelRegistration registration) {
 	    registration.interceptors(webSocketAuthInterceptor);
+	    registration.interceptors(webSocketSecurityInterceptor);
 	}
 }

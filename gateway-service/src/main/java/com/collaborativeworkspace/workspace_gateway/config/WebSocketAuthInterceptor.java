@@ -30,10 +30,10 @@ public class WebSocketAuthInterceptor implements ChannelInterceptor {
                 String token = authHeader.substring(7);
                 
                 if (jwtValidator.validateToken(token)) {
-                    String username = jwtValidator.extractUsername(token);
+                    String userId = jwtValidator.extractUserId(token);
                     
                     UsernamePasswordAuthenticationToken authentication = 
-                            new UsernamePasswordAuthenticationToken(username, null, null);
+                            new UsernamePasswordAuthenticationToken(userId, null, null);
                     accessor.setUser(authentication);
                 } else {
                     throw new IllegalArgumentException("Invalid JWT Token!");
