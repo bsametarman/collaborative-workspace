@@ -8,6 +8,6 @@ import org.springframework.stereotype.Repository;
 import com.collaborativeworkspace.user_service.entity.User;
 
 @Repository
-public interface UserRepository extends JpaRepository<User, Long>{
+public interface UserRepository extends JpaRepository<User, String>{
 	Optional<User> findByUsername(String username);
 }
