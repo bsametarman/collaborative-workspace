@@ -10,6 +10,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
+
 @Configuration
 public class GatewaySecurityConfig {
 	@Bean
@@ -18,6 +19,8 @@ public class GatewaySecurityConfig {
             .cors(cors -> cors.configurationSource(corsConfigurationSource()))
             .authorizeHttpRequests(auth -> auth
                 .requestMatchers("/ws/**").permitAll()
+                .requestMatchers("/api/workspace/**").permitAll()
+                .anyRequest().authenticated()
             );
             
         return http.build();
