@@ -8,6 +8,8 @@ import org.springframework.messaging.handler.annotation.DestinationVariable;
 import org.springframework.messaging.handler.annotation.MessageMapping;
 import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.handler.annotation.SendTo;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +67,73 @@ public class WorkspaceController {
             
         } catch (RuntimeException e) {
             return ResponseEntity.badRequest().body(e.getMessage());
+        }
+    }
+	
+	@PostMapping("/create")
+    public ResponseEntity<String> createDocument(@RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            	return ResponseEntity.status(401).body("Missing token.");
+            }
+            
+            String token = authHeader.substring(7);
+            
+            if (!jwtValidator.validateToken(token)) {
+            	return ResponseEntity.status(401).body("Invalid token.");
+            }
+            
+            String userId = jwtValidator.extractUserId(token);
+            String newDocumentId = documentAccessService.createNewDocument(userId);
+            
+            return ResponseEntity.ok(newDocumentId);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to create document.");
+        }
+    }
+
+    @GetMapping("/my-documents")
+    public ResponseEntity<?> getMyDocuments(@RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            	return ResponseEntity.status(401).body("Missing token.");
+            }
+            
+            String token = authHeader.substring(7);
+            
+            if (!jwtValidator.validateToken(token)) {
+            	return ResponseEntity.status(401).body("Invalid token.");
+            }
+            
+            String userId = jwtValidator.extractUserId(token);
+            var documents = documentAccessService.getUserDocuments(userId);
+            
+            return ResponseEntity.ok(documents);
+        } catch (Exception e) {
+            return ResponseEntity.badRequest().body("Failed to fetch documents.");
+        }
+    }
+    
+    @DeleteMapping("/{documentId}")
+    public ResponseEntity<String> deleteDocument(@PathVariable String documentId, @RequestHeader("Authorization") String authHeader) {
+        try {
+            if (authHeader == null || !authHeader.startsWith("Bearer ")) {
+            	return ResponseEntity.status(401).body("Missing token.");
+            }
+            
+            String token = authHeader.substring(7);
+            
+            if (!jwtValidator.validateToken(token)) {
+            	return ResponseEntity.status(401).body("Invalid token.");
+            }
+            
+            String requesterId = jwtValidator.extractUserId(token);
+            
+            documentAccessService.deleteDocument(documentId, requesterId);
+            
+            return ResponseEntity.ok("Document deleted successfully.");
+        } catch (RuntimeException e) {
+            return ResponseEntity.status(403).body(e.getMessage());
         }
     }
 	
